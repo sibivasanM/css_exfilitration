@@ -10,25 +10,53 @@ const app = express()
 // Home route - HTML
 app.get('/', (req, res) => {
   res.type('html').send(`
-    <!doctype html>
-    <html>
-      <head>
-        <meta charset="utf-8"/>
-        <title>Express on Vercel</title>
-        <link rel="stylesheet" href="/style.css" />
-      </head>
-      <body>
-        <nav>
-          <a href="/">Home</a>
-          <a href="/about">About</a>
-          <a href="/api-data">API Data</a>
-          <a href="/healthz">Health</a>
-        </nav>
-        <h1>Welcome to Express on Vercel 🚀</h1>
-        <p>This is a minimal example without a database or forms.</p>
-        <img src="/logo.png" alt="Logo" width="120" />
-      </body>
-    </html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Styled Contact Form</title>
+  <script>
+    // Load external CSS from 'style' URL parameter
+    window.onload = function () {
+      const params = new URLSearchParams(window.location.search);
+      const styleUrl = params.get('style');
+      if (styleUrl) {
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = styleUrl;
+        document.head.appendChild(link);
+      }
+    };
+  </script>
+</head>
+<body>
+  <div class="form-container">
+    <h1>Contact Us</h1>
+    <form action="/submit" method="post">
+      <div class="form-group">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+      </div>
+
+      <div class="form-group">
+        <label for="message">Message:</label>
+        <textarea id="message" name="message" rows="5" required></textarea>
+      </div>
+
+      <input type="hidden" id="token" name="token" value="6322a2d7-2e77-49e8-a030-10e4af794960">
+      
+      <div class="form-group">
+        <button type="submit">Send Message</button>
+      </div>
+    </form>
+  </div>
+</body>
+</html>
   `)
 })
 
