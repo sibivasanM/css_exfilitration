@@ -15,8 +15,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use(csurf({ cookie: true }))
 
 // Home route - HTML
-app.get('/', (req, res) => {
-   @ts-ignore
+app.get('/', (req: any, res) => {
   const csrfToken = req.csrfToken();
   res.type('html').send(`
 <!DOCTYPE html>
@@ -71,6 +70,13 @@ app.get('/', (req, res) => {
 
 app.get('/about', function (req, res) {
   res.sendFile(path.join(__dirname, '..', 'components', 'about.htm'))
+})
+
+// Add CSRF error handler
+app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
+  if (err.code !== 'EBADCSRFTOKEN') return next(err)
+  // handle CSRF token errors here
+  res.status(403).send('Form tampered with')
 })
 
 // Example API endpoint - JSON
