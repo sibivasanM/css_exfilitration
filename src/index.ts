@@ -16,6 +16,7 @@ app.use(csurf({ cookie: true }))
 
 // Home route - HTML
 app.get('/', (req, res) => {
+  const csrfToken = req.csrfToken();
   res.type('html').send(`
 <!DOCTYPE html>
 <html lang="en">
