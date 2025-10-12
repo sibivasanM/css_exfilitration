@@ -1,11 +1,18 @@
 import express from 'express'
 import path from 'path'
 import { fileURLToPath } from 'url'
+import csurf from 'csurf'
+import cookieParser from 'cookie-parser'
+
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
 const app = express()
+
+app.use(cookieParser())
+app.use(express.urlencoded({ extended: true }))
+app.use(csurf({ cookie: true }))
 
 // Home route - HTML
 app.get('/', (req, res) => {
@@ -48,7 +55,7 @@ app.get('/', (req, res) => {
         <textarea id="message" name="message" rows="5" required></textarea>
       </div>
 
-      <input type="hidden" id="token" name="token" value="6322a2d7-2e77-49e8-a030-10e4af794960">
+      <input type="hidden" name="_csrf" value="${csrfToken}">
       
       <div class="form-group">
         <button type="submit">Send Message</button>
